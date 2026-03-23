@@ -181,7 +181,7 @@ let soundIndex = 0; // harus ada untuk suara muncul
   }
 
   render();
-}, document.body.addEventListener("click", () => {
+document.body.addEventListener("click", () => {
   sounds.forEach(s => s.load());
   const bgm = document.getElementById("bgm");
   bgm.play();
