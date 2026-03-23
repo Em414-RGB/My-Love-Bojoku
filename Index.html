@@ -44,10 +44,11 @@
     }
   </style>
 </head>
-<audio id="bgm" loop>
-  <source src="Hivi! - Siapkah Kau 'Tuk Jatuh Cinta Lagi.mp3" type="audio/mpeg">
-</audio>
+
   <body>
+    <audio id="bgm" loop>
+  <source src="Lagu.mp3" type="audio/mpeg">
+</audio>
 
 <div class="box">
   <h1 id="question"></h1>
@@ -60,10 +61,10 @@
 
   // suara pack
    const sounds = [
-  new Audio("suara1.mp4"),
-  new Audio("suara2.mp4"),
-  new Audio("suara3.mp4"),
-  new Audio("suara4.mp4")
+  new Audio("suara1.mp3"),
+  new Audio("suara2.mp3"),
+  new Audio("suara3.mp3"),
+  new Audio("suara4.mp3")
 ];
 let soundIndex = 0; // harus ada untuk suara muncul
 
@@ -180,13 +181,11 @@ let soundIndex = 0; // harus ada untuk suara muncul
   }
 
   render();
-  document.body.addEventListener("click", () => {
-  sounds.forEach(s => s.load());
+  <audio id="bgm" loop>
+  <source src="Hivi! - Siapkah Kau 'Tuk Jatuh Cinta Lagi.mp3" type="audio/mpeg">
+</audio>
 }, { once: true });
-  document.body.addEventListener("click", () => {
-  const bgm = document.getElementById("bgm");
-  bgm.play();
-}, { once: true });
+  document.getElementById("bgm").volume = 0.3;
 </script>
 
 </body>
