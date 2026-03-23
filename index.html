@@ -181,8 +181,13 @@ let soundIndex = 0; // harus ada untuk suara muncul
   }
 
   render();
+}, document.body.addEventListener("click", () => {
+  sounds.forEach(s => s.load());
+  const bgm = document.getElementById("bgm");
+  bgm.play();
 }, { once: true });
-  document.getElementById("bgm").volume = 0.3;
+
+document.getElementById("bgm").volume = 0.3;
 </script>
 
 </body>
