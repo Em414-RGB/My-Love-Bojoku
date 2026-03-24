@@ -181,11 +181,11 @@ let typingInterval; // tambahin ini
 function typeText(text) {
   clearInterval(typingInterval); // biar gak numpuk
 
-  qEl.innerText = "";
+  qEl.textContent = "";
   let i = 0;
 
   typingInterval = setInterval(() => {
-    qEl.innerText += text[i];
+    qEl.textContent += text[i];
     i++;
     if (i >= text.length) clearInterval(typingInterval);
   }, 40);
