@@ -67,10 +67,10 @@ button:hover {
     body.end {
   filter: blur(2px) brightness(0.7);
 }
-    #question {
-  letter-spacing: 1px;
-  word-spacing: 3px;
-      white-space: pre-wrap;
+#question {
+  letter-spacing: 0.3px;
+  word-spacing: 2px;
+  white-space: pre-wrap;
 }
   </style>
 </head>
@@ -181,10 +181,10 @@ function moveButton(btn) {
   btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
   btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 }
-let typingInterval; // tambahin ini
+let typingInterval; 
 
 function typeText(text) {
-  clearInterval(typingInterval); // biar gak numpuk
+  clearInterval(typingInterval);
 
   qEl.textContent = "";
   let i = 0;
