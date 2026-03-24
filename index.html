@@ -70,6 +70,7 @@ button:hover {
     #question {
   letter-spacing: 1px;
   word-spacing: 3px;
+      white-space: pre-wrap;
 }
   </style>
 </head>
@@ -189,7 +190,7 @@ function typeText(text) {
   let i = 0;
 
   typingInterval = setInterval(() => {
-    qEl.textContent += text.charAt[i];
+    qEl.textContent += text.charAt(i);
     i++;
     if (i >= text.length) clearInterval(typingInterval);
   }, 40);
