@@ -67,6 +67,10 @@ button:hover {
     body.end {
   filter: blur(2px) brightness(0.7);
 }
+    #question {
+  letter-spacing: 1px;
+  word-spacing: 3px;
+}
   </style>
 </head>
 
@@ -185,7 +189,7 @@ function typeText(text) {
   let i = 0;
 
   typingInterval = setInterval(() => {
-    qEl.textContent += text[i];
+    qEl.textContent += text.charAt[i];
     i++;
     if (i >= text.length) clearInterval(typingInterval);
   }, 40);
