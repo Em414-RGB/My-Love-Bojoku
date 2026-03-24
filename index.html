@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>ILYSM my Bear❤️❤️</title>
+
   <style>
     body {
       margin: 0;
@@ -12,6 +12,20 @@
       font-family: Arial, sans-serif;
       color: white;
       text-align: center;
+    }
+
+    #startScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
     }
 
     .box {
@@ -45,8 +59,15 @@
   </style>
 </head>
 
-  <body>
-    <audio id="bgm" loop>
+<body>
+
+<!-- START SCREEN -->
+<div id="startScreen">
+  <h2>Sebelum mulai tolong klik ini dulu ya 😍</h2>
+  <button onclick="startApp()">Klik aku 😆</button>
+</div>
+
+<audio id="bgm" loop>
   <source src="lagu.mp3" type="audio/mpeg">
 </audio>
 
@@ -55,74 +76,79 @@
   <div id="answers"></div>
 </div>
 
-<!-- Audio -->
-
 <script>
-
-  // suara pack
-   const sounds = [
+const sounds = [
   new Audio("suara1.mp3"),
   new Audio("suara2.mp3"),
   new Audio("suara3.mp3"),
   new Audio("suara4.mp3")
 ];
-let soundIndex = 0; // harus ada untuk suara muncul
 
-  // Animasi hati
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
+let soundIndex = 0;
+let current = 0;
+let shrink = 1;
 
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 10 + "px";
-    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+const qEl = document.getElementById("question");
+const ansEl = document.getElementById("answers");
 
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
+function startApp() {
+  document.getElementById("startScreen").style.display = "none";
+
+  const bgm = document.getElementById("bgm");
+  bgm.volume = 0.7;
+  bgm.play();
+
+  sounds.forEach(s => s.load());
+
+  render();
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤️";
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 10 + "px";
+  heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 200);
+
+const flow = [
+  {
+    q: "Kamu sayang aku nggak maa? 🥺💖",
+    a: [
+      { text: "Sayang banget 😍", next: 1 },
+      { text: "Enggak 😜", action: "run" }
+    ]
+  },
+  {
+    q: "Aku lucu nggak sih? 😆💕",
+    a: [
+      { text: "Lucu banget 😆💖", next: 2 },
+      { text: "B aja 😏", action: "run" }
+    ]
+  },
+  {
+    q: "Kamu gak kangen aku nih ma? 😚",
+    a: [
+      { text: "Kangen parah 🥺❤️", next: 3 },
+      { text: "Biasa aja 😐", action: "run" }
+    ]
+  },
+  {
+    q: "can we be forever ma? 🥹❤️",
+    a: [
+      { text: "Forever 💍❤️", next: "end" },
+      { text: "Nanti dulu 😜", action: "run" }
+    ]
   }
-  setInterval(createHeart, 200);
+];
 
-  // Flow pertanyaan
-  const flow = [
-    {
-      q: "Kamu sayang aku nggak maa? 🥺💖",
-      a: [
-        { text: "Sayang banget 😍", next: 1 },
-        { text: "Enggak 😜", action: "run" }
-      ]
-    },
-    {
-      q: "Aku lucu nggak sih? 😆💕",
-      a: [
-        { text: "Lucu banget 😆💖", next: 2 },
-        { text: "B aja 😏", action: "run" }
-      ]
-    },
-    {
-      q: "Kamu gak kangen aku nih ma? 😚",
-      a: [
-        { text: "Kangen parah 🥺❤️", next: 3 },
-        { text: "Biasa aja 😐", action: "run" }
-      ]
-    },
-    {
-      q: "can we be forever ma? 🥹❤️",
-      a: [
-        { text: "Forever 💍❤️", next: "end" },
-        { text: "Nanti dulu 😜", action: "run" }
-      ]
-    }
-  ];
-
-  let current = 0;
-  let shrink = 1; // ukuran tombol
-
-  const qEl = document.getElementById("question");
-  const ansEl = document.getElementById("answers");
-
-  function moveButton(btn) {
-  // play suara
+function moveButton(btn) {
   sounds[soundIndex].currentTime = 0;
   sounds[soundIndex].play();
 
@@ -131,63 +157,49 @@ let soundIndex = 0; // harus ada untuk suara muncul
     soundIndex = sounds.length - 1;
   }
 
-  // makin kecil
   shrink -= 0.1;
   if (shrink < 0.4) shrink = 0.4;
   btn.style.transform = "scale(" + shrink + ")";
 
-  // pindah posisi
   btn.style.position = "absolute";
   btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
   btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 }
 
-  function render() {
-    const data = flow[current];
-    qEl.innerText = data.q;
-    ansEl.innerHTML = "";
+function render() {
+  const data = flow[current];
+  qEl.innerText = data.q;
+  ansEl.innerHTML = "";
 
-    data.a.forEach((btnData) => {
-      const btn = document.createElement("button");
-      btn.innerText = btnData.text;
+  data.a.forEach((btnData) => {
+    const btn = document.createElement("button");
+    btn.innerText = btnData.text;
 
-      btn.onclick = () => {
-        if (btnData.next !== undefined) {
-          if (btnData.next === "end") {
-            qEl.innerText = "Mwehe i knew it that, but i want tease you a bit 😆❤️";
-            ansEl.innerHTML = "💖💖💖";
-          } else {
-            current = btnData.next;
-            soundIndex = 0; // reset suara
-            shrink = 1; // reset ukuran
-            render();
-          }
+    btn.onclick = () => {
+      if (btnData.next !== undefined) {
+        if (btnData.next === "end") {
+          qEl.innerText = "Mwehe i knew it that 😆❤️";
+          ansEl.innerHTML = "💖💖💖";
+        } else {
+          current = btnData.next;
+          soundIndex = 0;
+          shrink = 1;
+          render();
         }
-      };
-
-      if (btnData.action === "run") {
-        // Desktop
-        btn.onmouseover = () => moveButton(btn);
-
-        // Mobile
-        btn.ontouchstart = (e) => {
-          e.preventDefault();
-          moveButton(btn);
-        };
       }
+    };
 
-      ansEl.appendChild(btn);
-    });
-  }
+    if (btnData.action === "run") {
+      btn.onmouseover = () => moveButton(btn);
+      btn.ontouchstart = (e) => {
+        e.preventDefault();
+        moveButton(btn);
+      };
+    }
 
-  render();
-document.body.addEventListener("click", () => {
-  sounds.forEach(s => s.load());
-  const bgm = document.getElementById("bgm");
-  bgm.play();
-}, { once: true });
-
-document.getElementById("bgm").volume = 0.7;
+    ansEl.appendChild(btn);
+  });
+}
 </script>
 
 </body>
